@@ -1,18 +1,35 @@
-use structopt::StructOpt;
 use anyhow::Result;
+use clap::Parser;
 
-/// A Windows port of the `factor` program.
-#[derive(StructOpt)]
-#[structopt(name = "factor-win")]
+/// A Rust port of the `factor` program.
+#[derive(Parser)]
 struct Args {
-    #[structopt(name = "numbers", help = "The numbers to factorize")]
-    numbers: Vec<u64>,
+    #[arg(name = "numbers", help = "The numbers to factorize")]
+    numbers: Vec<i32>,
 
-    #[structopt(short = "h", long = "exponents", help = "Print repeated factors in form p^e unless e is 1")]
+    #[arg(
+        short = 'h',
+        long = "exponents",
+        help = "Print repeated factors in form p^e unless e is 1"
+    )]
     exponents: bool,
+
+    #[arg(short, help = "Print the LCM and GCD of the numbers")]
+    lcm_gcd: bool,
 }
 
-fn factorize(mut n: u64, exponents: bool) -> String {
+fn gcd(a: i32, b: i32) -> i32 {
+    if b == 0 {
+        return a;
+    }
+    gcd(b, a % b)
+}
+
+fn lcm(a: i32, b: i32) -> i32 {
+    (a * b) / gcd(a, b)
+}
+
+fn factorize(mut n: i32, exponents: bool) -> String {
     let mut factors = Vec::new();
     let mut divisor = 2;
 
@@ -42,11 +59,23 @@ fn factorize(mut n: u64, exponents: bool) -> String {
 }
 
 fn main() -> Result<()> {
-    let args = Args::from_args_safe()?;
+    let args = Args::parse();
 
-    for number in args.numbers {
-        let factors = factorize(number, args.exponents);
-        println!("{}: {}", number, factors);
+    if !args.lcm_gcd {
+        for number in args.numbers {
+            let factors = factorize(number, args.exponents);
+            println!("{}: {}", number, factors);
+        }
+    } else {
+        let mut result_lcm = args.numbers[0];
+        let mut result_gcd = result_lcm;
+
+        for number in args.numbers {
+            result_lcm = lcm(result_lcm, number);
+            result_gcd = gcd(result_gcd, number);
+        }
+        println!("LCM: {result_lcm}");
+        println!("GCD: {result_gcd}");
     }
 
     Ok(())
