@@ -1,8 +1,24 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+All notable changes to this project will be documented in this file. This
+changelog complies with [Keep a
+Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## \[Unreleased\]
+
+## \[0.2.1\] - 2024-04-15
+
+### Added
+
+  - Add a new command-line argument `--prime-factors` (short version `-p`) to
+    print only the prime factors.
+
+### Change
+
+  - Update release profile settings to get smaller Rust executables.
+  - Modify the `factorize` function to support printing only prime factors when
+    the `prime_factors` flag is enabled.
+  - Improve algorithm in `factorize`.
 
 ## \[0.2.0\] - 2024-03-10
 
@@ -18,4 +34,5 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-  - Initial release: Basic functionality to get the prime factors of each specified integer.
+  - Initial release: basic functionality to get the prime factors of each
+    specified integer.
