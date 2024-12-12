@@ -1,37 +1,61 @@
 use anyhow::Result;
 use clap::Parser;
 
+mod maths;
+mod utilities;
+use crate::{
+    maths::{gcd, lcm},
+    utilities::format_factors,
+};
+
 /// A Rust port of the `factor` program.
 #[derive(Parser)]
 struct Args {
-    #[arg(name = "numbers", help = "The numbers to factorize")]
+    #[clap(name = "numbers", help = "The numbers to factorize")]
     numbers: Vec<i32>,
 
-    #[arg(short, help = "Print only the prime factors")]
+    #[clap(short, help = "Print only the prime factors")]
     prime_factors: bool,
 
-    #[arg(
+    #[clap(
         short = 'h',
         long = "exponents",
         help = "Print repeated factors in form p^e unless e is 1"
     )]
     exponents: bool,
 
-    #[arg(short, help = "Print the LCM and GCD of the numbers")]
+    #[clap(short, help = "Print the LCM and GCD of the numbers")]
     lcm_gcd: bool,
 }
 
-fn gcd(a: i32, b: i32) -> i32 {
-    if b == 0 {
-        return a;
+fn main() -> Result<()> {
+    let args = Args::parse();
+
+    if !args.lcm_gcd {
+        for number in &args.numbers {
+            let factors = factorize(*number, args.exponents, args.prime_factors);
+            println!("{}: {}", number, factors);
+        }
+    } else {
+        let mut result_lcm = args.numbers[0];
+        let mut result_gcd = result_lcm;
+
+        for number in &args.numbers {
+            result_lcm = lcm(result_lcm, *number);
+            result_gcd = gcd(result_gcd, *number);
+        }
+        println!("LCM: {result_lcm}");
+        println!("GCD: {result_gcd}");
     }
-    gcd(b, a % b)
+
+    Ok(())
 }
 
-fn lcm(a: i32, b: i32) -> i32 {
-    (a * b) / gcd(a, b)
-}
-
+/// Factorize a number into its prime factors.
+/// Example:
+/// ```
+/// assert_eq!(factorize(12, true, false), "2^2 3");
+/// ```
 fn factorize(mut n: i32, exponents: bool, prime_factors: bool) -> String {
     let is_prime = |n: i32| -> bool {
         if n <= 1 {
@@ -83,54 +107,5 @@ fn factorize(mut n: i32, exponents: bool, prime_factors: bool) -> String {
         factors.dedup();
     }
 
-    if exponents {
-        factors.sort();
-        let mut result = String::new();
-        let mut current_factor = factors[0];
-        let mut count = 1;
-        for &factor in &factors[1..] {
-            if factor == current_factor {
-                count += 1;
-            } else {
-                if count == 1 {
-                    result.push_str(&format!("{} ", current_factor));
-                } else {
-                    result.push_str(&format!("{}^{} ", current_factor, count));
-                }
-                current_factor = factor;
-                count = 1;
-            }
-        }
-        if count == 1 {
-            result.push_str(&format!("{} ", current_factor));
-        } else {
-            result.push_str(&format!("{}^{} ", current_factor, count));
-        }
-        result
-    } else {
-        factors.iter().map(|&f| f.to_string()).collect::<Vec<_>>().join(" ")
-    }
-}
-
-fn main() -> Result<()> {
-    let args = Args::parse();
-
-    if !args.lcm_gcd {
-        for number in &args.numbers {
-            let factors = factorize(*number, args.exponents, args.prime_factors);
-            println!("{}: {}", number, factors);
-        }
-    } else {
-        let mut result_lcm = args.numbers[0];
-        let mut result_gcd = result_lcm;
-
-        for number in &args.numbers {
-            result_lcm = lcm(result_lcm, *number);
-            result_gcd = gcd(result_gcd, *number);
-        }
-        println!("LCM: {result_lcm}");
-        println!("GCD: {result_gcd}");
-    }
-
-    Ok(())
+    format_factors(factors, exponents)
 }
