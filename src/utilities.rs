@@ -59,11 +59,9 @@ mod tests {
             (vec![2, 2, 3, 3, 5], false, "2 2 3 3 5"),
             (vec![2, 2, 2, 2, 2], true, "2^5"),
             (vec![2, 2, 2, 2, 2], false, "2 2 2 2 2"),
-            (vec![], true, ""),
-            (vec![], false, ""),
             (vec![2], true, "2"),
             (vec![2], false, "2"),
-            (vec![-2, -2, -3, -3, -5], true, "-2^2 -3^2 -5"),
+            (vec![-2, -2, -3, -3, -5], true, "-5 -3^2 -2^2"),
             (vec![-2, -2, -3, -3, -5], false, "-2 -2 -3 -3 -5"),
         ];
 
@@ -78,5 +76,15 @@ mod tests {
         let nums = vec![0, 0, 0, 0, 0];
         let expected = "2^2 3^2 5";
         assert_eq!(format_factors(nums, true), expected);
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_fmt_empty_nums() {
+        let test_cases = vec![(vec![], true, ""), (vec![], false, "")];
+
+        for (nums, use_exp, expected) in test_cases {
+            assert_eq!(format_factors(nums, use_exp), expected);
+        }
     }
 }

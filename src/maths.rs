@@ -5,6 +5,9 @@
 /// assert_eq!(gcd(10, 15), 5);
 /// ```
 pub fn gcd(a: i32, b: i32) -> i32 {
+    if a == 0 && b == 0 {
+        panic!("GCD is undefined for both numbers being zero");
+    }
     if b == 0 {
         return a;
     }
@@ -17,6 +20,9 @@ pub fn gcd(a: i32, b: i32) -> i32 {
 /// assert_eq!(lcm(10, 15), 30);
 /// ```
 pub fn lcm(a: i32, b: i32) -> i32 {
+    if a == 0 && b == 0 {
+        panic!("LCM is undefined for both numbers being zero");
+    }
     (a * b) / gcd(a, b)
 }
 
