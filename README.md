@@ -1,8 +1,12 @@
 # factorflow: a rust rewrite of factor
 
-[![License](https://img.shields.io/badge/license-Apache%202.0%20%2F%20MIT-blue.svg)](LICENSE_APACHE.md)
+[![License](https://img.shields.io/badge/license-0BSD-blue.svg)](LICENSE)
 
-A Rust rewrite of the well-known `factor` command.
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
+
+> A Rust rewrite of the well-known `factor` command.
+
+**Disclaimer**: you should use the [uutils](https://uutils.github.io/coreutils/docs/utils/factor.html) version of this command, as I feel this project is complete enough for me to leave it as-is for a long time.
 
 ## Installation
 
@@ -10,8 +14,8 @@ Clone the repository, navigate to the project directory, and build, and install
 the executable:
 
 ``` console
-$ git clone https://github.com/walker84837/factorflow-rs.git
-$ cd factorflow-rs
+$ git clone https://github.com/walker84837/factorflow.git
+$ cd factorflow
 $ cargo build --release
 ```
 
@@ -46,24 +50,20 @@ $ factorflow -h 72 36
 
 ## Support
 
-If you encounter any issues or have questions, please feel free to open an
-[issue](https://github.com/walker84837/factorflow-rs/issues).
+If you encounter any issues or have questions, please feel free to open an [issue](https://github.com/walker84837/factorflow/issues).
 
 ## Contributing
 
-Contributions are welcome\!
+Contributions are welcome!
 
 ## Authors and acknowledgments
 
-  - Author: [walker84837](https://github.com/walker84837) - Sole mantainer (for
-    now)
+  - Author: [walker84837](https://github.com/walker84837)
 
 ## License
 
-This project is dual-licensed under [Apache 2.0](LICENSE_APACHE.md) or
-[MIT](LICENSE_MIT.md) licenses.
+This project is licensed under the 0BSD license.
 
 ## Project status
 
-Development is active, and contributions are welcome. If you are interested in
-contributing, please reach out.
+Contributions are welcome. If you are interested in contributing, please reach out.
