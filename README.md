@@ -6,7 +6,7 @@
 
 > A Rust rewrite of the well-known `factor` command.
 
-**Disclaimer**: you should use the [uutils](https://uutils.github.io/coreutils/docs/utils/factor.html) version of this command, as I feel this project is complete enough for me to leave it as-is for a long time.
+**Disclaimer**: if you expect active contributions (or additions in general), you should use the [uutils](https://uutils.github.io/coreutils/docs/utils/factor.html) version instead. I feel this project is complete enough for me to leave it as-is for a long time.
 
 ## Installation
 
